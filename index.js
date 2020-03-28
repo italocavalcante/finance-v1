@@ -1,6 +1,7 @@
 // Import of express to configure routes.
 const express = require('express')
 const app = express();
+
 // Import of body-parser to read form-data
 const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({extended: false}))
