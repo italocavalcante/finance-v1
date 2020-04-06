@@ -6,4 +6,7 @@ const sequelize = new Sequelize('finance', 'italocavalcante', '#Portus@Cale10', 
 
 sequelize.authenticate().then(() => {console.log("Connected")})
 
-module.exports = sequelize
+module.exports = {
+  Sequelize: Sequelize,
+  sequelize: sequelize
+}

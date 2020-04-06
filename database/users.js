@@ -1,20 +1,35 @@
-const Sequelize = require('sequelize')
-const sequelize = require('database')
+const db = require('./database')
 
-
-const User = sequelize.define('user',{
+const User = db.sequelize.define('user',{
     firstname:{
-        type: sequelize.STRING,
+        type: db.Sequelize.STRING,
         allowNull: false
     },
+    lastname:{
+      type: db.Sequelize.STRING,
+      allowNull: false
+    },
     email: {
-      type: Sequelize.STRING,
+      type: db.Sequelize.STRING,
       allowNull: false
     },
     password: {
-      type: Sequelize.STRING,
+      type: db.Sequelize.STRING,
       allowNull: false
     }
 })
 
-User.sync({force: true})
+//User.sync({force: true})
+
+module.exports = User
+
+ 
+//Create Admin User
+/*
+User.create({
+  firstname: "Italo",
+  lastname: "Cavalcante",
+  email: "italocavalcantefortaleza@live.com",
+  password: "cb23b55090ccb32d228084e289ab00f2"
+})
+*/
