@@ -10,8 +10,12 @@ app.use(session({
         maxAge: 600000
     }
 }))
+
+// Configure of EJS to rederize HTML
 app.set('view engine', 'ejs')
 
+// Configure of MaterializeCss to do views
+app.use(express.static(__dirname+'/public'))
 const usersController = require("./database/usersController.js")
 app.use("/",usersController)
 
@@ -25,19 +29,27 @@ const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
-//Setting to use EJS
-//app.use('view engine', 'ejs')
+
 
 app.get("/", (req,res) =>{
     res.render("login")
 })
 
 app.post("/post/user/login",(req,res) => {
+    email = req.body["username"]
+    password = req.body["password"]
+    
     User.findOne({where: {
-        email: req.body["username"]
-    }}).then(console.log("User "+ " "+req.body["username"]+" "+"found."))
+        email: email
+    }}).then((user) => {
+        if(user.email == undefined){
+
+        }else{
+            console.log("User does not exist, please sign in to login.")
+        }
+    })
     .catch((erro) => {
-        console.log("User "+req.body["username"]+"not found")
+        console.log("User "+req.body["username"]+" not found")
     })
 })
 
