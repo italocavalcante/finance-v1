@@ -3,13 +3,14 @@ const express = require('express')
 const session = require('express-session')
 const app = express();
 const db = require('./database/database.js')
-
+const hash = require('md5')
 app.use(session({
     secret: "ramdom",
     cookie: {
         maxAge: 600000
     }
 }))
+
 
 // Configure of EJS to rederize HTML
 app.set('view engine', 'ejs')
@@ -30,26 +31,55 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json())
 
 
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
 
 app.get("/", (req,res) =>{
-    res.render("login")
+    //var userNotFound = false
+    res.render("login",{
+        errors:{
+            user: false,
+            password: false 
+        }
+    })
 })
 
 app.post("/post/user/login",(req,res) => {
-    email = req.body["username"]
-    password = req.body["password"]
-    
+    email    = req.body.email
+    password = hash(req.body.password)
+    console.log("Email digitado: "+email)
+    console.log("Senha digitada: "+password)
     User.findOne({where: {
         email: email
     }}).then((user) => {
-        if(user.email == undefined){
-
+        if(user != undefined){
+            console.log("Form password: " + password)
+            console.log("Database password: " + user.password)
+            if(password == user.password){
+                req.session.user = {
+                    id: user.id,
+                    email: user.email
+                }
+                res.json({"url":"/expenses/page/1"})
+            }else{
+                res.json({errors:{
+                    user: false,
+                    password: true 
+        }})
+        }
         }else{
-            console.log("User does not exist, please sign in to login.")
+            emailError = true
+            res.json({errors:{
+                        user: true,
+                        password: true 
+            }})
         }
     })
     .catch((erro) => {
-        console.log("User "+req.body["username"]+" not found")
+        console.log("User "+req.body["username"]+" not found "+ erro)
     })
 })
 
