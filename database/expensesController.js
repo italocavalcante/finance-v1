@@ -15,8 +15,11 @@ router.get("/expenses",(req, res) => {
 })
 
 router.get("/expenses/page/:number",(req, res) => {
+    if (!req.session.user){
+        res.redirect("/")
+        return false
+    }
     pageNumber = req.params.number
-    console.log(pageNumber)
 
     if(pageNumber == 1 || pageNumber < 1 || isNaN(pageNumber)){
         offset = 0
@@ -24,20 +27,28 @@ router.get("/expenses/page/:number",(req, res) => {
         offset = (pageNumber - 1) * 10
     }
 
+    
+    
     Expenses.findAndCountAll({
         limit: 10,
-        offset: offset
+        offset: offset,
+        where: {
+            userId: req.session.user.id
+        }
     }).then((expenses)=>{
-        //res.json(expenses.rows)
-        //console.log(expenses[0])
+        if((pageNumber * 10) >= expenses.rows){
+            next = false
+        }else{
+            next = true
+        }
         res.render("expenses/expenseslist",{
+            next: next,
             expenses: expenses.rows
         })
     })
 })
 
 router.get("/expenses/:id",(req, res) => {
-    //res.render("expenses/expense")
     Expenses.findAndCountAll({
         attributes: ['id','title','description'],
         where: {
