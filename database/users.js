@@ -25,6 +25,7 @@ module.exports = User
 
  
 //Create Admin User
+
 /*
 User.create({
   firstname: "Italo",
