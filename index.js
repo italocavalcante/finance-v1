@@ -50,20 +50,16 @@ app.get("/", (req,res) =>{
 app.post("/post/user/login",(req,res) => {
     email    = req.body.email
     password = hash(req.body.password)
-    console.log("Email digitado: "+email)
-    console.log("Senha digitada: "+password)
     User.findOne({where: {
         email: email
     }}).then((user) => {
         if(user != undefined){
-            console.log("Form password: " + password)
-            console.log("Database password: " + user.password)
             if(password == user.password){
                 req.session.user = {
                     id: user.id,
                     email: user.email
                 }
-                res.json({"url":"/expenses/page/1"})
+                res.json({url:"/expenses/page/1"})
             }else{
                 res.json({errors:{
                     user: false,
@@ -81,6 +77,13 @@ app.post("/post/user/login",(req,res) => {
     .catch((erro) => {
         console.log("User "+req.body["username"]+" not found "+ erro)
     })
+})
+
+app.get("/exit",(req,res) => {
+    if (req.session.user){
+        req.session.destroy()
+        res.redirect("/")
+    }
 })
 
 app.listen(8080,(req, res) => {
