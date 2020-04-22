@@ -13,10 +13,14 @@ const Expenses = db.sequelize.define('expenses',{
     description: {
       type: db.Sequelize.TEXT,
       allowNull: false
+    },
+    dateExpense: {
+      type: db.Sequelize.DATE,
     }
 })
 
 Expenses.belongsTo(User);
-//Expenses.sync({force: true})
+User.hasMany(Expenses)
+//Expenses.sync()
 
 module.exports = Expenses

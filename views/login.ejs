@@ -1,47 +1,31 @@
-<!DOCTYPE html>
-    <head>
-        <meta charset="utf-8">
-        <title>Welcome to login Page</title>
-    </head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <h1 align="center">Please sign-in to continue</h1>
-    <script>
-        $(document).ready(function(){
-            $("#login").click(function(event){
-                email = $("#email").val()
-                password = $("#password").val()
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-                if(email.length <= 0){
-                    return alert("Email cannot be blank.")
-                }
-                
-                if(password.length <= 0){
-                    return alert("Password cannot be blank.")
-                }
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
 
-                event.preventDefault();
-                $.ajax({
-                method: "POST",     
-                url: "/post/user/login", 
-                datatype: "JSON",
-                data: {"email": email,
-                       "password": password
-                      },
-                crossdomain: true,
-                success: function(response){
-                    window.location.replace(response.url);
-                         },
-                error: function(error){
-                             console.log(error);
-                }
-        });
-    });
-});
-    </script>
-    <form method="post" action="/post/user/login">
-        Email: <input id="email" name="email" type="text" placeholder="Email" required><br>
-        Password: <input id="password" name="password" type="password" placeholder="Password" required><br>
-    <input type="submit" name="login" id="login" >
-    
-    </form>
-</html>
+<section class="section section-login">
+            <div class="valign-wrapper row login-box">
+                    <div class="col card hoverable s10 pull-s1 m6 pull-m3 l4 pull-l4">
+                      <form action="" method="POST">
+                        <div class="card-content">
+                          <span class="card-title">Enter login details</span>
+                          <div class="row">
+                            <div class="input-field col s12">
+                              <label for="text">User ID</label>
+                              <input type="text" class="validate" name="uid" id="userid" />
+                            </div>
+                            <div class="input-field col s12">
+                              <label for="password">Password </label>
+                              <input type="password" class="validate" name="pwd" id="password" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="card-action right-align">
+                          <input type="reset" id="reset" class="btn-flat grey-text waves-effect">
+                          <input type="submit" class="btn teal waves-effect waves-light" value="Login">
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+      </section>
