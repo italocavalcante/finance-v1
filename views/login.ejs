@@ -1,23 +1,64 @@
+<!doctype html>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
+<head>
+  <title>
+    Expense History System
+  </title>
+</head>
+<body>
+  <script>
+    $(document).ready(function(){
+        $("#login").click(function(event){
+            email = $("#email").val()
+            password = $("#password").val()
+
+            if(email.length <= 0){
+                return alert("Email cannot be blank.")
+            }
+            
+            if(password.length <= 0){
+                return alert("Password cannot be blank.")
+            }
+
+            event.preventDefault();
+            $.ajax({
+            method: "POST",     
+            url: "/post/user/login", 
+            datatype: "JSON",
+            data: {"email": email,
+                   "password": password
+                  },
+            crossdomain: true,
+            success: function(response){
+              console.log("Redirecionando para > "+response.url)  
+              //window.location.replace(response.url);
+                     },
+            error: function(error){
+                         console.log(error);
+            }
+    });
+});
+});
+</script>
 
 <section class="section section-login">
             <div class="valign-wrapper row login-box">
                     <div class="col card hoverable s10 pull-s1 m6 pull-m3 l4 pull-l4">
-                      <form action="" method="POST">
+                      <form action="/post/user/login" method="POST">
                         <div class="card-content">
                           <span class="card-title">Enter login details</span>
                           <div class="row">
                             <div class="input-field col s12">
                               <label for="text">User ID</label>
-                              <input type="text" class="validate" name="uid" id="userid" />
+                              <input type="text" class="validate" name="email" id="email" />
                             </div>
                             <div class="input-field col s12">
                               <label for="password">Password </label>
-                              <input type="password" class="validate" name="pwd" id="password" />
+                              <input type="password" class="validate" name="password" id="password" />
                             </div>
                           </div>
                         </div>
@@ -29,3 +70,4 @@
                     </div>
                   </div>
       </section>
+</body>
