@@ -79,6 +79,7 @@ app.post("/post/user/login",(req,res) => {
     })
 })
 
+
 app.get("/exit",(req,res) => {
     if (req.session.user){
         req.session.destroy()

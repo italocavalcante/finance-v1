@@ -54,7 +54,9 @@
 
         document.addEventListener('DOMContentLoaded', function() {
             var elems = document.querySelectorAll('.timepicker');
-            var instances = M.Timepicker.init(elems);
+            var instances = M.Timepicker.init(elems,{
+              twelveHour: false
+            });
         });
           </script>
         <div class="input-field col s3">
@@ -66,10 +68,6 @@
             <input name="expensedate" id="expensedate" type="text" class="timepicker">
             <label for="expensetime">time</label>
         </div>
-
-
-
-
         <div class="input-field col s6">
             
             <button type="submit" id="btnEnviar" class="waves-effect waves-light btn-small green" ><i class="material-icons left">file_upload</i>Enviar</button>

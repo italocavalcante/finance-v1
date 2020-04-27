@@ -31,6 +31,7 @@ router.post("/expenses/addexpense",(req, res)=>{
     value = req.body.value
     description = req.body.description
     expenseDateTime = new Date(req.body.expensedate)
+    console.log("ADD EXPENSE: "+expenseDateTime)
     Expenses.create({
         title: title,
         value: value,
@@ -42,6 +43,124 @@ router.post("/expenses/addexpense",(req, res)=>{
     }).catch((error) => {
         res.json(error)
     })
+})
+
+/*function date_format(a){
+    if(a instanceof Date == false){
+        return false
+    }
+
+    day = a.getDate()
+    month = String(a.getMonth())
+    year = a.getFullYear()
+    
+    if(month.length == 1){
+        month = "0"+month
+    }
+    
+    if(day.length == 1){
+        day = "0"+month
+    }
+
+    newDate = day+"/"+month+"/"+year
+
+    return newDate
+
+}*/
+
+function date_format(a){
+    if(a instanceof Date == false){
+        return false
+    }
+
+    day = a.getDate()
+    month = String(a.getMonth())
+    year = a.getFullYear()
+    
+    hours = String(a.getHours())
+    minutes = String(a.getMinutes())
+    seconds = String(a.getSeconds())
+    
+    if(month.length == 1){
+        month = "0"+month
+    }
+    
+    if(day.length == 1){
+        day = "0"+month
+    }
+
+    if(hours.length == 1){
+        hours = "0"+hours
+    }
+
+    if(minutes.length == 1){
+        minutes = "0"+minutes
+    }
+
+    if(seconds.length == 1){
+        seconds = "0"+seconds
+    }
+
+    newDate = year+"/"+month+"/"+day
+    newTime = hours+":"+minutes
+
+    return newDateFormat = {
+        date: newDate,
+        time: newTime
+    }
+
+}
+
+router.get("/expense/edit/:id",(req,res) => {
+    if (!req.session.user){
+        res.redirect("/")
+        return false
+    }
+    console.log(typeof(req.query["dateExpense"]))
+    dateExpense = new Date(parseInt(req.query["dateExpense"]))
+    expenseDateForm = new Date(req.query["dateExpense"])
+    console.log(dateExpense.getFullYear()+"/"+(dateExpense.getMonth())+"/"+dateExpense.getDate())
+    expenseDate = dateExpense.getFullYear()+"-"+(dateExpense.getMonth()+1)+"-"+dateExpense.getDate()
+    expenseTime = dateExpense.getHours()+":"+dateExpense.getMinutes()+":"+dateExpense.getSeconds()
+    console.log(typeof(expenseDate))
+    expenseData = {
+        id: req.params.id,
+        title: req.query["title"],
+        value: req.query["value"],
+        expenseDate: expenseDate,
+        expenseTime: expenseTime,
+        description: req.query["description"]
+    }
+    console.log(expenseData)
+    res.render("expenses/editexpense",{
+        expenseData: expenseData
+    })
+})
+
+router.post("/expense/edit/:id",(req,res) => {
+    if (!req.session.user){
+        res.redirect("/")
+        return false
+    }
+    id = req.params.id
+    title = req.body.title
+    value = req.body.value
+    description = req.body.description
+    expenseDate = new Date(req.body.expensedate)
+    console.log(expenseDate)
+    console.log("Id of expense: "+id)
+    console.log("Id of User: "+req.session.user.id)
+    Expenses.update({
+        title: title,
+        value: value,
+        description: description,
+        dateExpense: expenseDate},{
+        where: {
+            userId: req.session.user.id,
+            id: id
+        }
+    })
+    res.redirect("/expenses/page/1")
 })
 
 router.get("/expenses/page/:number",(req, res) => {
