@@ -32,6 +32,7 @@
             <h4 class="center">Edit expense</h4>
       
         <div class="input-field col s6">
+          <input type="hidden" id="action" name="action" value="update">
           <input type="hidden" id="expenseId" name="expenseId" value="<%=expenseData.id%>">
           <input placeholder="Title" maxlength="30" name="title" id="title" type="text" class="validate" value="<%=expenseData.title%>" required>
         </div>

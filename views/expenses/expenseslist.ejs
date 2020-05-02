@@ -36,7 +36,7 @@
     
             <tbody>
                 <%expenses.forEach((expense) => {%>
-                <%expenseDateSTring = expense.dateExpense.getFullYear +"-"+expense.dateExpense.getMonth+"-"+expense.dateExpense.getDate  %>
+                <%expenseDateSTring = expense.dateExpense.getDate +"/"+expense.dateExpense.getMonth+"/"+expense.dateExpense.getFullYear  %>
                 <%expenseDateSTring = expense.dateExpense.getHours +":"+expense.dateExpense.getMinutes+":"+expense.dateExpense.getSeconds  %>
                     <tr>
                         <!--<td class="center"><a href="/expense/edit/<%= expense.id %>"   class="waves-effect waves-light btn-small red center" ><i class="material-icons center red">edit</i></a></td>-->
@@ -55,9 +55,9 @@
             <%}else{%>
             <div class="col s4"></div>
             <%}%>
+            <div class="col s4"><div class="col s4"></div><a href="/expenses/addexpense"   class="waves-effect waves-light btn-small red center" ><i class="material-icons left red">add</i>Add expense</a> </div>
             <% if (next == true){ %>
             <a href="/expenses/page/<%=page + 1%>"   class="waves-effect waves-light btn-small red right" ><i class="material-icons right red">arrow_forward</i>Next</a>
-            <div class="col s4"><div class="col s4"></div><a href="/expenses/addexpense"   class="waves-effect waves-light btn-small red center" ><i class="material-icons left red">add</i>Add expense</a> </div>
           </div>
             <%}%>
         </div>

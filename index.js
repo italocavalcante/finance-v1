@@ -38,13 +38,17 @@ app.use(function(req, res, next) {
   });
 
 app.get("/", (req,res) =>{
-    //var userNotFound = false
-    res.render("login",{
-        errors:{
-            user: false,
-            password: false 
-        }
-    })
+    if(!req.session.user){
+        res.render("login",{
+            errors:{
+                user: false,
+                password: false 
+            }
+        })
+    }else{
+        res.redirect("/expenses/page/1")
+    }
+
 })
 
 app.post("/post/user/login",(req,res) => {

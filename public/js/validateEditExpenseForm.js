@@ -1,6 +1,7 @@
 $(document).ready(function(){
 	$("#btnEnviar").click(function(event){
         event.preventDefault();
+    var action = $("#action").val()
     var id = $("#expenseId").val()
     var title = $("#title").val()
     var value = $("#value").val()
@@ -16,20 +17,24 @@ $(document).ready(function(){
     var hours = expensetime.substr(0,2)
     var minutes = expensetime.substr(3,2)
     
-    console.log("title: "+ title)
-    console.log("value: "+ value)
-    console.log("description "+ description)
     expenseNewDate = new Date(year, month-1,day, hours, minutes)
+    console.log(expenseNewDate)
     if(expenseNewDate == "Invalid Date"){
         alert("Choose a Valid Date !")
         return 0
     }
 
-    console.log(expenseNewDate)
+    if(action == "create"){
+        url = "/expenses/insert"
+    }else if (action == "update"){
+        url = "/expense/edit/"+id
+    }else{
+        alert("Choose a valid CRUD operation")
+    }
+
         
 		$.ajax({
-		    method: "POST",	
-		    url: "/expense/edit/"+id,	
+		    url: url,	
 		    method: "POST",
 		    datatype: "JSON",
 		    data: {
