@@ -113,11 +113,11 @@ router.post("/expense/edit/:id",(req,res) => {
 })
 
 router.get("/expenses/page/:number",(req, res) => {
-    next = true
     if (!req.session.user){
         res.redirect("/")
         return false
     }
+    next = true
     pageNumber = parseInt(req.params.number)
 
     if(pageNumber == 1 || pageNumber < 1 || isNaN(pageNumber)){
@@ -179,6 +179,23 @@ router.post("/expenses/insert",(req, res) => {
             dateExpense: expensedate,
             userId: req.session.user.id
         })
+})
+
+router.get("/expense/delete/:id",(req, res) => {
+    if (!req.session.user){
+        res.redirect("/")
+        return false
+    }
+
+    var id = req.params.id
+
+    Expenses.destroy({
+        where: {
+            id: id
+        }
+    })
+
+    res.redirect("/expenses/page/1")
 })
 
 module.exports = router

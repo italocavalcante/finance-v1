@@ -27,6 +27,7 @@
             <thead>
               <tr>
                   <th class="center">id</th>
+                  <th>Delete</th>
                   <th>Title</th>
                   <th>Value</th>
                   <th>description</th>
@@ -41,10 +42,11 @@
                     <tr>
                         <!--<td class="center"><a href="/expense/edit/<%= expense.id %>"   class="waves-effect waves-light btn-small red center" ><i class="material-icons center red">edit</i></a></td>-->
                         <td class="center"><a href="/expense/edit/<%=expense.id%>?title=<%=expense.title%>&value=<%=expense.value%>&dateExpense=<%=expense.dateExpense.getTime()%>&description=<%=expense.description%>"   class="waves-effect waves-light btn-small red center" ><i class="material-icons center red">edit</i></a></td>
+                        <td class="center"><a href="/expense/delete/<%=expense.id%>"   class="waves-effect waves-light btn-small red center" ><i class="material-icons center red">delete</i></a></td>
                         <td><%= expense.title %></td>
                         <td><%= expense.value %></td>
                         <td><%= expense.description %></td>
-                        <td><%= expense.dateExpense.getDate()+"/"+(expense.dateExpense.getMonth()+1)+"/"+expense.dateExpense.getFullYear()+" "+expense.dateExpense.getHours()+":"+expense.dateExpense.getMinutes()+":"+expense.dateExpense.getSeconds() %></td>
+                        <td><%= expense.dateExpense.toLocaleString() %></td>
                     </tr>
                 <%})%>
             </tbody>
