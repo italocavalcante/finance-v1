@@ -3,12 +3,20 @@ const express = require('express')
 const session = require('express-session')
 const app = express();
 const db = require('./database/database.js')
+const nosqldb = require('./database/noSqlDatabase.js')
+const MongoDBStore = require('connect-mongodb-session')(session)
+const store = new MongoDBStore({ 
+    uri: 'mongodb://finance:Finance3000@54.39.107.200:28018/finance',
+    collection: 'sessions'
+})
+
 const hash = require('md5')
 app.use(session({
     secret: "ramdom",
     cookie: {
         maxAge: 600000
-    }
+    },
+    store: store
 }))
 
 
@@ -61,9 +69,15 @@ app.post("/post/user/login",(req,res) => {
             if(password == user.password){
                 req.session.user = {
                     id: user.id,
+                    logintime: new Date().getTime(),
+                    firstname: user.firstname,
+                    lastname: user.lastname,
                     email: user.email
                 }
-                res.json({url:"/expenses/page/1"})
+                res.json({errors:{
+                    user: false,
+                    password: false,
+                    url:"/expenses/page/1"}})
             }else{
                 res.json({errors:{
                     user: false,
@@ -71,7 +85,6 @@ app.post("/post/user/login",(req,res) => {
         }})
         }
         }else{
-            emailError = true
             res.json({errors:{
                         user: true,
                         password: true 

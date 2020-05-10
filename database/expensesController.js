@@ -31,7 +31,6 @@ router.post("/expenses/addexpense",(req, res)=>{
     value = req.body.value
     description = req.body.description
     expenseDateTime = new Date(req.body.expensedate)
-    console.log("ADD EXPENSE: "+expenseDateTime)
     Expenses.create({
         title: title,
         value: value,
@@ -171,7 +170,6 @@ router.post("/expenses/insert",(req, res) => {
     value = req.body.value
     description = req.body.description
     expensedate = req.body.expensedatetime
-    console.log()
         Expenses.create({
             title: title,
             value: value,
@@ -179,7 +177,10 @@ router.post("/expenses/insert",(req, res) => {
             dateExpense: expensedate,
             userId: req.session.user.id
         })
+        res.json({  status:200,
+                    url: "/expenses/page/1"})
 })
+
 
 router.get("/expense/delete/:id",(req, res) => {
     if (!req.session.user){
