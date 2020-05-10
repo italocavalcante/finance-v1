@@ -47,7 +47,7 @@ $(document).ready(function(){
 		    crossdomain: true,
 		    success: function(response){
                     if(response.status == 200){
-                        window.location.(response.url);
+                        window.location.reload(response.url);
                     }
 			    },
 		    error: function(error){
